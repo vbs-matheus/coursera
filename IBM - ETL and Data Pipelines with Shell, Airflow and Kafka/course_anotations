@@ -18,11 +18,12 @@
 
 
 ### **What is data transformation?**
+*Also known as data wrangling*
 - **Data processing**: Performs operations to adapt data to target systems.
 - **Conforming to target systems**: Aligns data with required formats.
 - **Cleaning**: Removes duplicate or inconsistent data.
 - **Filtering**: Selects relevant data.
-- **Joining**: Combines data from multiple sources.
+- **Joining** or **Merging**: Combines data from multiple sources. Most suitable for 'unlike' data sources
 - **Feature engineering**: Creates new features from data.
 - **Formatting and typing**: Standardizes data types for compatibility.
 
@@ -141,7 +142,7 @@
 - **Capturing Events via APIs:** Enables real-time monitoring and historical analysis.
 
 #### **2. Edge and IoT Applications**
-- **Edge Computing for Surveillance:** Reduces network latency for time-sensitive data.
+- **Edge Computing for Surveillance:** Reduces network latency for time-sensitive data. Also reduces redundancy by filtering, aggregating, and extracting only relevant features at the edge, minimizing the volume of data that needs to be transmitted and stored.
 - **Direct-to-Storage Data Migration:** Ensures seamless data transfer for later processing.
 
 #### **3. Healthcare and Diagnostics**
@@ -284,4 +285,74 @@
   - Parallel loading enhances efficiency by handling multiple data streams or partitioned files concurrently.
 
 ---
+---
+
+# ETL & Data Pipelines: Tools and Techniques
+
+## **ETL Workflow as Data Pipelines**
+
+Traditionally, the primary focus of ETL workflows has been on accuracy rather than speed, ensuring that data transformations preserve the integrity and quality of information. However, efficiency is also a crucial factor to consider, especially as data volumes grow exponentially. By feeding data through a pipeline in smaller packets, ETL processes can handle large datasets more effectively. This approach allows data to move continuously through the workflow without interruption, leveraging parallel processing to minimize bottlenecks.
+
+In a typical ETL pipeline, while one packet is being extracted, another is transformed, and yet another is loaded into the target system. This concurrent processing ensures that the data pipeline remains active and reduces latency, making the ETL process faster and more resource-efficient.
+
+### **Batch Processing in ETL**
+
+Batch processing is a method used in ETL pipelines to handle data in bulk, usually at scheduled intervals that can range from hours to days. It is particularly useful for managing large volumes of data that do not require real-time processing. In a conventional setup, data from OLTP (Online Transaction Processing) systems is collected and periodically transferred to OLAP (Online Analytical Processing) systems for analysis.
+
+Batch processing intervals can be triggered in different ways:
+- **Size-Based Triggers:** When the data reaches a certain size, it initiates a batch process.
+- **Event-Based Triggers:** Specific events, such as security alerts, can activate the batch process.
+- **On-Demand Triggers:** Web applications, like music or video streaming services, may initiate batch processing as needed.
+
+This method is cost-effective and reduces the strain on system resources by allowing data to accumulate before processing. However, it is not suitable for use cases that require real-time data analysis due to its inherent delay between data capture and availability for analytics.
+
+📌![Data Packets](https://raw.githubusercontent.com/vbs-matheus/coursera/refs/heads/main/imgs/Data-packet.jpg)
+
+### **Staging Areas in ETL**
+
+Staging areas play a vital role in ETL pipelines by serving as intermediate storage for data being transferred from source systems to the data warehouse. The primary function of a staging area is to decouple the ETL process from source systems, ensuring that data extraction, transformation, and loading can occur independently without impacting the performance of the source systems.
+
+In a staging area, raw data from various sources is consolidated, cleaned, and transformed. This step is particularly important for integrating data from disparate OLTP systems that may use different schemas or formats. The staging area also helps in managing changes in source data, such as new fields or modified data types, by applying transformations before loading the data into the final destination.
+
+For instance, in a cost accounting OLAP system, data from payroll, sales, and purchasing OLTP systems may first be collected in a staging area. Here, it undergoes transformations to standardize formats and ensure consistency before being loaded into the OLAP system for reporting and analysis.
+
+📌![Staging Areas](https://raw.githubusercontent.com/vbs-matheus/coursera/refs/heads/main/imgs/Staging-areas.jpg)
+
+### **ETL Workflows as DAGs**
+
+Managing the complexity of ETL workflows requires a structured approach, which is where Directed Acyclic Graphs (DAGs) come into play. In tools like Apache Airflow, ETL workflows are represented as DAGs to manage task dependencies effectively. A DAG ensures that tasks execute in a predefined order, preventing cycles or repetitions that could lead to infinite loops or data inconsistencies.
+
+In Airflow, a DAG consists of tasks that are represented as nodes, with directed edges indicating dependencies. Tasks can be scheduled to run sequentially or in parallel, optimizing the ETL process for performance and efficiency. For example, tasks like data extraction can run concurrently with transformation tasks, provided there are no interdependencies.
+
+Airflow’s flexibility in defining DAGs using Python scripts allows data engineers to implement complex workflows, including retries for failed tasks, monitoring, and alerting mechanisms to ensure data integrity and reliability.
+
+📌![Airflow DAG](https://raw.githubusercontent.com/vbs-matheus/coursera/refs/heads/main/imgs/ApacheAirflow-DAG.jpg)
+
+### **Popular ETL Tools**
+
+Choosing the right ETL tool is crucial for managing data pipelines efficiently. Modern ETL tools offer a range of features, including automation, drag-and-drop interfaces, and compliance with security standards like HIPAA and GDPR.
+
+#### Talend Open Studio
+Talend Open Studio is an open-source ETL tool that provides a user-friendly drag-and-drop interface for designing data pipelines. It supports integration with big data platforms and cloud data warehouses, making it a versatile choice for both small and large-scale ETL projects. One of its standout features is the ability to auto-generate Java code for data transformation tasks, reducing manual coding effort.
+
+#### AWS Glue
+AWS Glue is a fully managed ETL service designed to simplify data preparation for analytics on the AWS cloud platform. It offers schema discovery and metadata management, enabling users to automate the process of crawling data sources and defining tables. AWS Glue's serverless architecture means that users do not need to manage infrastructure, allowing them to focus entirely on data transformations and analytics.
+
+#### IBM InfoSphere DataStage
+IBM InfoSphere DataStage is an enterprise-grade ETL tool known for handling large volumes of data with parallel processing capabilities. It provides a graphical interface for designing ETL jobs and integrates seamlessly with IBM's broader data ecosystem. DataStage's ability to handle both ETL and ELT (Extract, Load, Transform) processes makes it a robust choice for organizations with diverse data integration needs.
+
+#### Alteryx
+Alteryx focuses on self-service analytics, providing an intuitive drag-and-drop interface that allows business users to create ETL pipelines without needing to write code. It integrates with a wide range of data sources and offers powerful analytics capabilities, making it a favorite among non-technical users who need to manipulate data quickly and efficiently.
+
+#### Apache Airflow and Python
+Apache Airflow is a platform for programmatically authoring, scheduling, and monitoring workflows. Its flexibility in defining ETL tasks as code makes it a powerful tool for managing complex pipelines. By using Python to define workflows, data engineers can implement custom transformations, integrate with APIs, and handle error conditions with precision.
+
+#### Pandas Python Library
+Pandas is a powerful open-source library for Python that simplifies data manipulation and analysis. Its DataFrame structure allows users to handle tabular data with ease, making it an excellent choice for small to medium-sized ETL tasks. However, Pandas is not well-suited for large-scale ETL processes due to memory constraints and its single-threaded execution model.
+
+#### Overview:
+
+Overall, the choice of ETL tool depends on factors such as data volume, real-time processing needs, and integration capabilities. By understanding the strengths and limitations of each tool, organizations can design efficient ETL pipelines that meet their specific requirements.
+
+--- 
 ---
