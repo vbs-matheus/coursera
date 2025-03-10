@@ -1,0 +1,287 @@
+# Module 1 - Data Processing Techniques
+
+## **ETL Fundamentals**
+
+### **What is an ETL process?**
+- **Extract**: Obtains data from various sources (databases, APIs, files, etc.).
+- **Transform**: Applies rules and functions to standardize, clean, and prepare data.
+- **Load**: Stores processed data in a final repository for analysis.
+
+
+### **What is extraction?**
+- **Access configuration**: Defines how data will be accessed and read by an application.
+- **Web scraping**: Collects data from web pages.
+- **API connections**: Integrates data programmatically via APIs.
+- **Types of data**:
+  - **Static**: Data that does not change frequently.
+  - **Streaming**: Continuous data transmission.
+
+
+### **What is data transformation?**
+- **Data processing**: Performs operations to adapt data to target systems.
+- **Conforming to target systems**: Aligns data with required formats.
+- **Cleaning**: Removes duplicate or inconsistent data.
+- **Filtering**: Selects relevant data.
+- **Joining**: Combines data from multiple sources.
+- **Feature engineering**: Creates new features from data.
+- **Formatting and typing**: Standardizes data types for compatibility.
+
+
+### **What is data loading?**
+- **Moving data**: Transfers data to new environments.
+- **Examples of targets**:
+  - **Databases**.
+  - **Data Warehouses**.
+  - **Data Marts**.
+- **Objective**: Make data available for analytics, dashboards, and reports.
+
+### **Use cases for ETL pipelines**
+- **Digital transformation**: Digitizing analog media (photos, videos, audio).
+- **Data migration**:
+  - **OLTP to OLAP**: Moves data from transactional to analytical systems.
+- **Dashboards and Machine Learning**: Provides data for analytics and model training.
+
+### **Recap**
+- **ETL** stands for: **Extract, Transform, Load**.
+- **Extraction**: Reading data from multiple sources.
+- **Transformation**: Preparing data to meet destination requirements.
+- **Loading**: Writing data to the final environment.
+- **Purpose of ETL**: Curate and make data accessible to end-users.
+
+---
+---
+
+## **Comparing ETL to ELT**
+
+### **Introduction**
+- ETL (Extract, Transform, Load) and ELT (Extract, Load, Transform) are data integration processes used to move and prepare data for analysis.
+- The main difference lies in when and where the data transformation occurs.
+
+### **Key Differences between ETL and ELT**
+#### **1. Transformation Location**
+- **ETL**: Transformation happens within the data pipeline before loading the data into the target system.
+- **ELT**: Transformation occurs after loading the raw data into the destination environment, leveraging the power of cloud-based systems.
+
+
+#### **2. Flexibility**
+- **ETL**:
+  - More rigid as it relies on pre-engineered pipelines according to user specifications.
+- **ELT**:
+  - More flexible, allowing end users to perform transformations as needed.
+
+
+#### **3. Support for Big Data**
+- **ETL**:
+  - Typically used for structured, relational data in on-premise environments, facing scalability challenges.
+- **ELT**:
+  - Designed to handle both structured and unstructured data in cloud environments, solving scalability issues.
+
+#### **4. Time-to-Insight**
+- **ETL**:
+  - Requires longer development time for specifying and building pipelines.
+- **ELT**:
+ 
+### **The Evolution from ETL to ELT**
+- Driven by the need for access to raw data and the capabilities of cloud storage.
+- **Staging Areas**:
+  - In ELT, data lakes act as staging areas to store raw data.
+  - Self-service data platforms have emerged as modern staging areas, enhancing accessibility.
+
+### **The Shift from ETL to ELT**
+- ETL is still relevant for specific use cases but has limitations for big data and real-time analytics.
+- **ELT Advantages**:
+  - Addresses challenges such as:
+    - Lengthy time-to-insight.
+    - Handling large-scale and diverse data.
+    - Providing access to siloed information.
+
+### **Recap**
+- Key differences between ETL and ELT include:
+  - **Transformation location, flexibility, scalability, and time-to-insight**.
+- The demand for raw data access is driving the evolution to ELT.
+- While ETL remains relevant, ELT enables ad-hoc, self-service analytics for modern data environments.
+
+---
+---
+
+## **Data Extraction Techniques**
+
+### **Examples of Raw Data Sources**
+#### **1. Traditional Sources**
+- **Paper Documents:** Physical documents converted to digital form using OCR (Optical Character Recognition).
+- **Web Pages:** Extracted using web scraping techniques to gather structured or semi-structured data.
+- **Analog Audio/Video:** Digitized for analysis, often through signal processing methods.
+- **Surveys, Statistics, Economics:** Data collected from structured surveys and statistical reports.
+- **Transactional Data:** Captured from databases and log files, essential for financial and operational analytics.
+
+#### **2. Modern Sources**
+- **Social Media:** Extracts user-generated content for sentiment analysis and trend detection.
+- **Weather Station Networks:** Continuous data feeds for predictive analytics in meteorology.
+- **IoT (Internet of Things):** Sensor data providing real-time analytics for smart devices.
+- **Medical Records:** Structured and unstructured data used for healthcare analytics.
+- **Human Genomes:** Genetic data for bioinformatics and personalized medicine.
+
+### **Techniques for Extracting Data**
+#### **1. Traditional Techniques**
+- **OCR (Optical Character Recognition):** Converts scanned documents into machine-readable text.
+- **ADC (Analog-to-Digital Conversion) and CCD (Charge-Coupled Device) Sampling:** Used for digitizing analog signals.
+- **Surveys and Polls:** Data gathered through mail, phone, or in-person.
+- **Cookies and User Logs:** Tracks user behavior for analytics and personalization.
+
+#### **2. Advanced Techniques**
+- **Web Scraping:** Extracts data from HTML pages using tools like Beautiful Soup and Scrapy.
+- **APIs (Application Programming Interfaces):** Facilitates data exchange between applications.
+- **Database Querying:** SQL and NoSQL queries for extracting structured data.
+- **Edge Computing:** Processes data locally on devices to minimize latency.
+- **Biomedical Devices:** Captures biometric data for diagnostic purposes.
+
+### **Use Cases**
+#### **1. API-Based Integration**
+- **Integrating Structured Data Sources:** Facilitates data consolidation across platforms.
+- **Capturing Events via APIs:** Enables real-time monitoring and historical analysis.
+
+#### **2. Edge and IoT Applications**
+- **Edge Computing for Surveillance:** Reduces network latency for time-sensitive data.
+- **Direct-to-Storage Data Migration:** Ensures seamless data transfer for later processing.
+
+#### **3. Healthcare and Diagnostics**
+- **Medical Diagnostics:** Utilizes biometric data for predictive healthcare analytics.
+
+### **Recap**
+- Raw data sources range from paper documents to IoT devices and biomedical data.
+- Common extraction techniques include OCR, web scraping, APIs, and database querying.
+- Use cases span from API integrations to medical diagnostics leveraging biometric data.
+
+---
+---
+
+## **Introduction to Data Transformation Techniques**
+
+- Data transformation is a key step in ETL (Extract, Transform, Load) and ELT (Extract, Load, Transform) processes.
+- It involves converting raw data into a format suitable for analysis or storage.
+
+### **1. Core Transformation Operations**
+- **Data Typing:** Ensures that data types are consistent and compatible across systems.
+- **Data Structuring:** Organizes data into a structured format such as tables, hierarchies, or JSON.
+- **Anonymizing and Encrypting:** Protects sensitive information by masking or encrypting data.
+
+### **2. Additional Transformation Techniques**
+- **Cleaning:**
+  - Involves removing duplicate records and handling missing values.
+- **Normalizing:**
+  - Converts data into a common format or unit for consistency.
+- **Filtering, Sorting, Aggregating, Binning:**
+  - **Filtering:** Extracts relevant subsets of data.
+  - **Sorting:** Organizes data based on specified criteria.
+  - **Aggregating:** Summarizes data, such as calculating averages or sums.
+  - **Binning:** Groups continuous data into discrete intervals.
+- **Joining:**
+  - Combines data from multiple sources based on common fields.
+
+### **Schema-on-Write vs. Schema-on-Read**
+#### **1. Schema-on-Write (Conventional ETL Approach)**
+- Defines a fixed schema before writing data.
+- **Pros:**
+  - Ensures consistency and efficiency.
+- **Cons:**
+  - Limited flexibility for handling unstructured data.
+
+#### **2. Schema-on-Read (Modern ELT Approach)**
+- Applies schema dynamically when reading data.
+- **Pros:**
+  - Offers greater versatility and supports diverse data formats.
+  - Facilitates enhanced storage flexibility, enabling the handling of larger data volumes.
+
+### **Information Loss in Transformation**
+#### **1. Causes of Information Loss**
+- **Lossy Data Compression:** Reduces file size by discarding some information.
+- **Filtering:** Eliminates less relevant data but may lose important details.
+- **Aggregation:** Summarizes data, potentially obscuring underlying patterns.
+- **Edge Computing Devices:** May pre-process data, leading to loss of granularity.
+
+#### **2. Visualizing Information Loss**
+- **ETL:** Typically involves greater information loss due to early transformations.
+- **ELT:** Retains raw data longer, minimizing information loss until necessary.
+
+
+### **Recap**
+- Data transformation formats data to suit application needs.
+- Common transformations: typing, structuring, normalizing, aggregating, and cleaning.
+- **Schema-on-Write:** Used in ETL for consistency but is less flexible.
+- **Schema-on-Read:** Used in ELT for versatility and flexibility.
+- **Information Loss:** Common in compression, filtering, and aggregation processes.
+
+---
+---
+
+## **Data Loading Techniques**
+
+### **Data Loading Strategies**
+- **Full Loading**:
+  - Used to start tracking transactions in a new data warehouse.
+  - Loads an initial history into a database.
+
+- **Incremental Loading**:
+  - Used to load data that has changed since previous loading.
+  - Appends new data to existing datasets.
+  - Accumulates transaction history.
+
+### **Types of Incremental Loading**
+
+#### **Stream Loading**
+- **Characteristics**:
+  - Data is loaded in real-time.
+  - Continuous updates as data arrives.
+  - Triggered by events such as:
+    - **Real-time data**: Sensor data, social media feeds, IoT devices.
+    - **Measurements**: Data size and threshold values.
+    - **User requests**: Streaming video, music, web pages.
+
+#### **Batch Loading**
+- **Characteristics**:
+  - Data is loaded in batches.
+  - Periodic loading, such as daily transactions to a database.
+  - Can be scheduled using:
+    - **Windows Task Scheduler**.
+    - **Cron jobs**.
+    - **Daily stock updates**.
+
+### **Push vs Pull Methodology**
+- **Push**:
+  - Source pushes data to the data warehouse.
+  - Useful for real-time data integration.
+
+- **Pull**:
+  - Data warehouse pulls data from the source.
+  - Suitable for scheduled extractions and batch loading.
+
+### **Loading Plans**
+- **Serial or Sequential Loading**:
+  - Data is added one after the other in sequence.
+  - Considered the default loading plan.
+
+- **Parallel Loading**:
+  - Data from different sources is loaded simultaneously.
+  - Data from one source is split into chunks and loaded concurrently.
+  - A faster and optimized approach.
+
+### **Parallel Loading Techniques**
+- **Multiple Data Streams**:
+  - Allows simultaneous loading from various sources into the destination.
+  
+📌![Multiple Data Stream](https://raw.githubusercontent.com/vbs-matheus/coursera/refs/heads/main/imgs/Parallel-loading.jpg)
+
+- **File Partitioning**:
+  - Divides a large file into smaller chunks for parallel processing and loading.
+
+📌![Multiple File Partitioning](https://raw.githubusercontent.com/vbs-matheus/coursera/refs/heads/main/imgs/Parallel-loading2.jpg)
+
+### **Recap**
+- **Key Points**:
+  - Full and incremental are primary data loading strategies.
+  - Data can be loaded in batches or streamed continuously.
+  - Both push and pull methodologies are applicable for data loading.
+  - Parallel loading enhances efficiency by handling multiple data streams or partitioned files concurrently.
+
+---
+---
