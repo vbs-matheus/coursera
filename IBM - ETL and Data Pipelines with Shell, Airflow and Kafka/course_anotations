@@ -306,7 +306,8 @@ Batch processing intervals can be triggered in different ways:
 
 This method is cost-effective and reduces the strain on system resources by allowing data to accumulate before processing. However, it is not suitable for use cases that require real-time data analysis due to its inherent delay between data capture and availability for analytics.
 
-📌![Data Packets](https://raw.githubusercontent.com/vbs-matheus/coursera/refs/heads/main/imgs/Data-packet.jpg)
+📌  
+![Data Packets](https://raw.githubusercontent.com/vbs-matheus/coursera/refs/heads/main/imgs/Data-packet.jpg)
 
 ### **Staging Areas in ETL**
 
@@ -316,7 +317,7 @@ In a staging area, raw data from various sources is consolidated, cleaned, and t
 
 For instance, in a cost accounting OLAP system, data from payroll, sales, and purchasing OLTP systems may first be collected in a staging area. Here, it undergoes transformations to standardize formats and ensure consistency before being loaded into the OLAP system for reporting and analysis.
 
-📌![Staging Areas](https://raw.githubusercontent.com/vbs-matheus/coursera/refs/heads/main/imgs/Staging-areas.jpg)
+📌  ![Staging Areas](https://raw.githubusercontent.com/vbs-matheus/coursera/refs/heads/main/imgs/Staging-areas.jpg)
 
 ### **ETL Workflows as DAGs**
 
@@ -326,7 +327,7 @@ In Airflow, a DAG consists of tasks that are represented as nodes, with directed
 
 Airflow’s flexibility in defining DAGs using Python scripts allows data engineers to implement complex workflows, including retries for failed tasks, monitoring, and alerting mechanisms to ensure data integrity and reliability.
 
-📌![Airflow DAG](https://raw.githubusercontent.com/vbs-matheus/coursera/refs/heads/main/imgs/ApacheAirflow-DAG.jpg)
+📌  ![Airflow DAG](https://raw.githubusercontent.com/vbs-matheus/coursera/refs/heads/main/imgs/ApacheAirflow-DAG.jpg)
 
 ### **Popular ETL Tools**
 
@@ -356,3 +357,186 @@ Overall, the choice of ETL tool depends on factors such as data volume, real-tim
 
 --- 
 ---
+
+## **ETL Using Shell Scripting**
+
+Shell scripting is a powerful tool for implementing ETL (Extract, Transform, Load) pipelines efficiently. In this context, we'll explore how to build an ETL process using Bash to report temperature statistics collected from a remote sensor. The goal is to capture temperature readings, process them to extract meaningful insights, and load the results into a dashboard for real-time visualization.
+
+### **Temperature Reporting Scenario**
+
+The scenario involves reporting the hourly average, minimum, and maximum temperatures from a remote sensor that updates every minute. The process relies on two APIs: `get_temp_api` to extract temperature data and `load_stats_api` to upload the processed statistics to a reporting dashboard.
+
+#### Requirements
+- `get_temp_api`: API to extract temperature data.
+- `load_stats_api`: API to upload processed data to a dashboard.
+
+
+### **ETL Workflow Overview**
+
+The ETL process consists of three main phases:
+
+- **Extract**: Fetch temperature readings using `get_temp_api` and append them to a log file (`temperature.log`).
+- **Transform**: Process the most recent hour of readings using a Python script (`get_stats.py`) to calculate the minimum, maximum, and average temperatures, saving the results in a CSV file (`temp_stats.csv`).
+- **Load**: Use `load_stats_api` to upload the processed CSV data to the dashboard.
+
+
+### **Creating the ETL Shell Script**
+
+Start by creating a shell script file:
+
+`touch Temperature_ETL.sh`
+
+Open the file in a text editor:
+
+`gedit Temperature_ETL.sh`
+
+
+### **Script Content**
+
+Add the following code to the script:
+
+```bash
+# Transform your file into a bash shell script
+!/bin/bash
+
+# Extract temperature reading using get_temp_api
+get_temp_api >> temperature.log
+
+# Buffer last 60 readings (approximately last hour)
+tail -60 temperature.log > temp_buffer.log
+mv temp_buffer.log temperature.log
+
+# Transform: Call Python script to process readings
+python3 get_stats.py temperature.log temp_stats.csv
+
+# Load: Upload processed stats using load_stats_api
+load_stats_api temp_stats.csv
+```
+
+#### Explanation of the script
+
+- **Extract Phase:**  
+The command `get_temp_api >> temperature.log` captures temperature data and appends it to the temperature.log file. Using `>>` ensures that new readings are added without overwriting previous data.
+
+- **Buffering Data:**  
+To keep only the most recent hour of readings, `tail -60 temperature.log > temp_buffer.log` extracts the last 60 lines (assuming one reading per minute). The buffered data is then moved back to temperature.log using `mv temp_buffer.log temperature.log`
+
+- **Transformation Phase:**  
+The script calls the Python script with:  
+`python3 get_stats.py temperature.log temp_stats.csv`  
+This script processes the buffered data to compute min, max, and average temperatures, saving the results to *temp_stats.csv*.
+
+- **Load Phase:**  
+The command `load_stats_api temp_stats.csv` uploads the transformed data to the dashboard.
+
+#### Setting Permissions for the Script
+Before executing the script, make it executable:  
+`chmod +x Temperature_ETL.sh`
+
+#### Scheduling the ETL Job
+To automate the ETL process every minute, use crontab:  
+1. Open the crontab editor:  
+`crontab -e`
+
+2. Add the following line to schedule the script:
+
+`* * * * * /path/to/Temperature_ETL.sh`  
+*This line ensures that the ETL script runs every minute, automating data extraction, transformation, and loading.*
+
+### **Summary**
+This example demonstrates how Bash scripting can be leveraged to build a complete ETL pipeline.  
+By using simple commands and integrating APIs for data extraction and loading, we can efficiently automate the process of capturing, processing, and visualizing temperature data in real-time.
+
+
+## **Introduction to Data Pipelines**
+
+### **What is a Pipeline?**
+A **pipeline** consists of a series of connected processes where the **output of one process serves as input** to the next. This concept is widely used in different industries, including **manufacturing**, **software development**, and **data processing**.
+
+- In an assembly line, each worker or machine **performs a specific task**, then passes the product down the line.
+- In software, a pipeline ensures **sequential execution** of processes, optimizing efficiency and resource utilization.
+- In computing, pipelines **process data step by step**, transforming it at each stage.
+
+### **What is a Data Pipeline?**
+A **data pipeline** is a structured sequence of processes that move and transform data between systems.
+
+- The **primary goal** of a data pipeline is to efficiently move **data from one place or format to another**.
+- Any system that **extracts**, **transforms**, and **loads data (ETL)** is considered a **data pipeline**.
+
+Data pipelines exist at different levels:
+- **Low-level hardware architectures**, managing data transfer at a machine level.
+- **Software-driven processes**, which involve **commands, programs, and execution threads**.
+- **Bash pipelines**, which connect multiple commands to facilitate data processing using the `|` operator.
+
+### **Packet Flow Through a Pipeline**
+Data flows through a pipeline in **packets** (logical units of data).
+- A **queued data packet** enters the pipeline.
+- Each step **transforms or processes** the packet.
+- The time a packet **spends within the pipeline** is called **pipeline latency**.
+- The **gap between data packets being processed** is the **throughput delay**.
+
+### **Data Pipeline Performance**
+There are two key performance considerations regarding data pipelines:
+
+#### **Latency**:
+- **Latency** is the total time it takes for a **single data packet** to pass through the entire pipeline.
+- It is determined by the **slowest process** in the sequence.
+- Example: If a **web server is slow**, page loading time is affected, even if the internet connection is fast.
+
+#### **Throughput**
+- **Throughput** refers to the **amount of data** processed per unit time.
+- Higher **packet sizes** improve throughput efficiency.
+- Example: In an **assembly line**, increasing batch size optimizes production speed.
+
+### **Use Cases of Data Pipelines**
+Data pipelines serve multiple purposes:
+- **Backing up files** to ensure data availability.
+- **Integrating raw data** from multiple sources into a data lake.
+- **Moving transactional records** to a data warehouse.
+- **Streaming IoT data** to dashboards and machine learning models.
+- **Processing raw data** for machine learning applications.
+- **Message transmission** (emails, SMS, video streaming, etc.).
+
+### **Recap**
+- **Data pipelines** move and transform data between systems.
+- **Latency and throughput** are key performance metrics.
+- **Real-world use cases** include data lakes, backups, IoT streaming, and ML pipelines.
+
+---
+---
+
+
+## **Key Data Pipeline Processes**
+Data pipelines consist of multiple stages that ensure the efficient flow of data from its source to a destination system. These stages include extraction, ingestion, transformation, loading, scheduling, monitoring, and optimization.
+
+### **Monitoring and Optimization**
+Ensuring that a data pipeline runs efficiently requires continuous monitoring. Key performance metrics include:
+- **Latency**: The time required for data to travel through the pipeline.
+- **Throughput**: The amount of data processed within a given time.
+- **Error detection**: Identifying system failures or data inconsistencies.
+- **Utilization rate**: Measuring how efficiently system resources are used.
+
+A logging and alerting system is essential to notify administrators of failures or performance issues.
+
+### **Load Balanced Pipelines**
+For optimal performance, a pipeline should have **just-in-time** data processing, meaning that each stage operates without unnecessary delays. A well-balanced pipeline ensures that no step is left idle while waiting for another stage to complete its task.
+
+### **Handling Unbalanced Loads**
+When processing speeds vary across pipeline stages, bottlenecks may occur. There are several strategies to mitigate this issue:
+- **Parallelization**: Running multiple instances of a slow stage to increase efficiency.
+- **Process replication**: Spreading workloads across multiple CPUs, cores, or threads.
+- **Data partitioning**: Distributing data packets dynamically to prevent delays.
+
+For example, if one transformation step takes significantly longer than others, replicating it across multiple threads can improve throughput.
+
+### **Stage Synchronization**
+To ensure smooth transitions between pipeline stages, **I/O buffers** are used as temporary storage areas that regulate data flow. These buffers help align different processing speeds, preventing data congestion.
+
+A common implementation is using message queues like RabbitMQ, which temporarily store data before it is processed by the next stage.
+
+📌![Handling unbalanced loads - Parallelization](https://raw.githubusercontent.com/vbs-matheus/coursera/refs/heads/main/imgs/handlingloads-parallelization.jpg)
+
+### **Recap**
+- Data pipeline processes involve extraction, transformation, loading, scheduling, monitoring, and optimization.
+- Monitoring key metrics such as latency, throughput, and resource utilization ensures optimal pipeline performance.
+- Techniques like parallelization and I/O buffers help mitigate bottlenecks and balance the workload across different pipeline stages.
