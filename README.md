@@ -5,7 +5,7 @@
 # **Coursera Courses**
 This repository folders are designated each for it's respective study courses on Coursera
 
-## Estudied Courses:
+## Studied Courses:
 ### [IBM - ETL and Data Pipelines with Shell, Airflow and Kafka](https://github.com/vbs-matheus/coursera/tree/main/IBM%20-%20ETL%20and%20Data%20Pipelines%20with%20Shell%2C%20Airflow%20and%20Kafka)
 
 #### Necessary software:

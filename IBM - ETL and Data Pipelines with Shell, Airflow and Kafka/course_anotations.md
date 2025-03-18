@@ -287,7 +287,7 @@
 ---
 ---
 
-# ETL & Data Pipelines: Tools and Techniques
+# Module 2 - ETL & Data Pipelines: Tools and Techniques
 
 ## **ETL Workflow as Data Pipelines**
 
@@ -725,6 +725,8 @@ The choice of a **data pipeline tool** depends on the **organization’s needs, 
 
 Modern data pipelines often **combine multiple tools**, leveraging **batch and streaming** technologies to build efficient and scalable architectures. Understanding these tools allows data engineers to create **reliable, high-performance data ecosystems**.
 
+# Module 3 - Building Data Pipelines using Airflow
+
 ## **Apache Airflow Overview**
 
 ### **Introduction to Apache Airflow**
@@ -933,3 +935,6 @@ Defining workflows as code in Apache Airflow offers several benefits:
 DAGs in Apache Airflow provide a structured way to define and manage workflows. By representing workflows as directed acyclic graphs, Airflow avoids loops and unnecessary complexity. Tasks within a DAG are implemented using operators, each defining specific actions to be performed. The Airflow Scheduler is responsible for executing these tasks, distributing them across worker nodes and handling failures as needed.
 
 The ability to define DAGs as Python scripts brings multiple advantages. Workflows become more **maintainable**, **version-controlled**, and **testable**, allowing data teams to collaborate efficiently. With this flexibility and robustness, Airflow has become a standard tool for orchestrating data pipelines in modern data engineering.
+
+---
+---
