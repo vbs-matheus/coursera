@@ -540,3 +540,83 @@ A common implementation is using message queues like RabbitMQ, which temporarily
 - Data pipeline processes involve extraction, transformation, loading, scheduling, monitoring, and optimization.
 - Monitoring key metrics such as latency, throughput, and resource utilization ensures optimal pipeline performance.
 - Techniques like parallelization and I/O buffers help mitigate bottlenecks and balance the workload across different pipeline stages.
+
+## **Batch versus Streaming Data Pipeline Use Cases**
+
+### **Batch Data Pipelines**
+Batch pipelines process large sets of data at scheduled intervals. They are ideal for use cases where the latest data is not immediately required, and processing accuracy is a priority. These pipelines execute on a **fixed schedule** (e.g., hourly, daily, or weekly) or based on specific triggers such as data size thresholds.
+
+#### **Characteristics of Batch Processing**
+Batch pipelines are designed to handle structured data processing with high reliability:
+- **Periodic Execution**: Jobs run at predefined intervals rather than continuously.
+- **Trigger-Based Execution**: Processing can be initiated when a certain amount of data accumulates.
+- **Higher Accuracy**: Data is cleaned and processed in bulk, ensuring reliable outputs.
+- **Latency Trade-off**: Since data is processed in batches, results are delayed.
+
+#### **Common Use Cases**
+Batch pipelines are useful when accuracy is more important than real-time availability:
+- **Data backups** to ensure redundancy and disaster recovery.
+- **Transaction history loading** for financial reporting and auditing.
+- **Billing and order processing** in e-commerce and subscription services.
+- **Data modeling** for predictive analytics.
+- **Sales and weather forecasting** using large datasets.
+- **Medical image processing**, where precision is critical for diagnosis.
+
+### **Streaming Data Pipelines**
+Streaming pipelines process continuous flows of data in near real-time. Instead of processing data in bulk, they handle individual records as they arrive.
+
+#### **Characteristics of Streaming Processing**
+- **Low Latency**: Data is processed as it arrives, minimizing delays.
+- **Event-Driven Processing**: Each new data point triggers immediate processing.
+- **Scalability**: Designed for high-velocity data environments.
+- **Potential for Errors**: Due to rapid ingestion, error handling is more complex.
+
+#### **Common Use Cases**
+Streaming pipelines are essential when real-time data processing is required:
+- **Social media monitoring and sentiment analysis** for trend tracking.
+- **Fraud detection** in financial transactions, identifying anomalies in real time.
+- **User behavior tracking** for targeted advertising.
+- **Stock market trading**, where small delays impact financial outcomes.
+- **Real-time product pricing** in e-commerce.
+- **Recommender systems** used by content platforms.
+
+### **Micro-Batch Data Pipelines**
+Micro-batching is a hybrid approach that processes small batches at high frequency, simulating real-time behavior while maintaining structured processing.
+
+#### **Key Benefits of Micro-Batching**
+- **Near Real-Time Processing**: Faster than batch but more structured than streaming.
+- **Improved Load Balancing**: Smaller batch sizes reduce latency and enhance efficiency.
+- **Ideal for Short Data Windows**: Useful when quick insights are needed but continuous streaming isn't necessary.
+
+### **Batch vs Stream Trade-offs**
+Choosing between batch and streaming processing depends on balancing **accuracy, latency, and fault tolerance**:
+- **Batch processing ensures high data quality but introduces processing delays.**
+- **Streaming prioritizes speed but may result in incomplete or less reliable data.**
+- **Data cleaning in batch processing improves reliability but increases processing time.**
+- **Lowering latency in streaming increases the risk of errors and inconsistencies.**
+
+### **Lambda Architecture**
+Lambda Architecture is a hybrid approach that combines batch and streaming data processing to support large-scale, real-time analytics.
+
+#### **Components of Lambda Architecture**
+- **Batch Layer**: Stores and processes historical data in bulk.
+- **Speed Layer**: Processes real-time data for immediate insights.
+- **Serving Layer**: Merges batch and speed layer results for a unified data view.
+
+#### **When to Use Lambda Architecture**
+- **When both speed and accuracy are required**: Ensures real-time insights with a historical data foundation.
+- **When access to earlier data is needed**: Allows retrospective analysis while handling real-time data ingestion.
+- **When system complexity is manageable**: Requires expertise and careful integration.
+
+📌![Handling unbalanced loads - Parallelization](https://raw.githubusercontent.com/vbs-matheus/coursera/refs/heads/main/imgs/lambda-architecture.jpg)
+
+### **Recap**
+- **Batch pipelines** process large amounts of data at scheduled intervals.
+- **Batch processing** is best when accuracy is prioritized over real-time availability.
+- **Streaming pipelines** process individual data points continuously for real-time insights.
+- **Streaming is useful** for fraud detection, stock trading, and personalized recommendations.
+- **Micro-batching** provides a near-real-time balance between batch and stream processing.
+- **Lambda architecture** merges batch and streaming processing for both speed and accuracy.
+
+---
+---
