@@ -542,7 +542,6 @@ A common implementation is using message queues like RabbitMQ, which temporarily
 - Techniques like parallelization and I/O buffers help mitigate bottlenecks and balance the workload across different pipeline stages.
 
 ## **Batch versus Streaming Data Pipeline Use Cases**
-
 ### **Batch Data Pipelines**
 Batch pipelines process large sets of data at scheduled intervals. They are ideal for use cases where the latest data is not immediately required, and processing accuracy is a priority. These pipelines execute on a **fixed schedule** (e.g., hourly, daily, or weekly) or based on specific triggers such as data size thresholds.
 
@@ -620,3 +619,317 @@ Lambda Architecture is a hybrid approach that combines batch and streaming data 
 
 ---
 ---
+
+## **Data Pipeline Tools and Technologies**
+
+### **Understanding Data Pipeline Technologies**
+Data pipelines are crucial for managing data **extraction, transformation, and delivery** across various systems. As businesses scale, they require modern **ETL (Extract, Transform, Load) and ELT (Extract, Load, Transform) solutions** that provide automation, security, and scalability.
+
+Modern data pipeline tools offer:
+- **Automation** to reduce manual intervention in data processing.
+- **No-code interfaces** that allow non-technical users to build pipelines visually.
+- **Security and compliance** mechanisms, including encryption and adherence to standards like **HIPAA and GDPR**.
+- **Scalability**, ensuring efficient handling of structured and unstructured data.
+
+Organizations select tools based on their **data volume, real-time processing needs, and operational complexity**, balancing cost, performance, and integration capabilities.
+
+### **Open-Source Data Pipeline Tools**
+
+#### **Pandas: A Versatile Data Manipulation Library**
+**Pandas** is widely used for **lightweight ETL pipelines** and **data analysis**. It provides a **data frame-based structure**, making it easy to manipulate structured data from formats such as **CSV, Excel, JSON, and SQL**.
+
+- **Strengths**:
+  - Facilitates **data cleaning, transformation, and aggregation** with minimal code.
+  - Ideal for **prototyping ETL workflows** before full-scale deployment.
+  - Supports various data sources and integration with **Jupyter Notebooks**.
+
+- **Limitations**:
+  - **Memory-bound processing**: Works best with small to mid-sized datasets.
+  - **Not designed for distributed computing**: Lacks native scalability for big data workloads.
+
+Alternatives like **Dask, Vaex, and Apache Spark** extend Pandas functionality for large-scale distributed data processing.
+
+#### **Apache Airflow: Orchestrating Complex Data Workflows**
+**Apache Airflow**, developed by Airbnb, is a powerful workflow automation framework. It allows users to **define, schedule, and monitor data pipeline execution** programmatically.
+
+- **Key Features**:
+  - **Task Scheduling**: Ensures automated, repeatable execution of data workflows.
+  - **Scalability**: Runs distributed workflows across multiple computing nodes.
+  - **Cloud Integration**: Seamlessly connects with **AWS, Google Cloud, and Azure**.
+
+Airflow is excellent for managing **scheduled ETL jobs**, though it is not designed for real-time event processing.
+
+#### **Talend Open Studio: A No-Code ETL Solution**
+**Talend Open Studio** provides a **visual ETL development** environment, making it easy for users to design **data pipelines with a drag-and-drop interface**.
+
+- **Advantages**:
+  - **Supports big data & cloud integrations** with Hadoop, Spark, and various **databases**.
+  - **Auto-generates Java code**, reducing manual coding effort.
+  - **Built-in monitoring and scheduling** ensure pipeline reliability.
+
+Talend is ideal for organizations that require **fast ETL deployment** without deep programming knowledge.
+
+### **Enterprise-Grade Data Pipeline Tools**
+
+#### **AWS Glue: A Managed ETL Service**
+**AWS Glue** is an enterprise-level **serverless ETL solution** that automates data extraction, transformation, and loading.
+
+- **Key Benefits**:
+  - **Schema Inference**: Automatically detects and structures datasets.
+  - **Serverless Execution**: Eliminates infrastructure management.
+  - **Tight Integration with AWS Services**: Works seamlessly with **Amazon S3, Redshift, and Athena**.
+
+AWS Glue is best suited for **cloud-native organizations** looking for **a fully managed data processing environment**.
+
+#### **IBM InfoSphere DataStage: High-Performance ETL**
+**IBM InfoSphere DataStage** is a **scalable data integration** platform optimized for large enterprises.
+
+- **Key Features**:
+  - **Parallel Processing**: Enhances speed and efficiency for large data volumes.
+  - **Drag-and-Drop Workflow Designer**: Simplifies ETL process creation.
+  - **Enterprise Connectivity**: Supports **multi-cloud and on-premises** data environments.
+
+IBM DataStage is ideal for **complex enterprise-wide ETL and ELT operations**.
+
+### **Streaming Data Pipeline Tools**
+
+#### **IBM Streams: Real-Time Data Processing**
+**IBM Streams** is designed for **low-latency, real-time analytics**, enabling businesses to **process data streams continuously**.
+
+- **Capabilities**:
+  - Supports **Java, Python, and C++** for flexible integration.
+  - **Sub-millisecond latency**, making it ideal for real-time analytics.
+  - **Drag-and-drop UI** for building streaming workflows.
+
+IBM Streams is particularly valuable for industries such as **finance, IoT, and cybersecurity**, where real-time insights are critical.
+
+#### **Apache Kafka: Distributed Event Streaming**
+**Apache Kafka** is a leading **event-driven streaming platform**, enabling real-time data ingestion and message brokering.
+
+- **Key Strengths**:
+  - **Scalability**: Handles millions of events per second.
+  - **Fault Tolerance**: Ensures data persistence and recovery.
+  - **Seamless Integration**: Works with **Flink, Spark, and Storm** for real-time analytics.
+
+Kafka is widely used in **log monitoring, fraud detection, and recommendation engines**.
+
+### **Key Takeaways**
+
+#### **Choosing the Right Data Pipeline Tool**
+The choice of a **data pipeline tool** depends on the **organization’s needs, data volume, and processing latency requirements**:
+- **For small-scale ETL & prototyping**: **Pandas** provides a flexible and intuitive environment.
+- **For large-scale workflow automation**: **Apache Airflow** ensures reliable orchestration.
+- **For no-code ETL**: **Talend Open Studio** simplifies development for non-technical users.
+- **For managed cloud-native ETL**: **AWS Glue** provides a fully automated pipeline experience.
+- **For real-time processing**: **IBM Streams and Apache Kafka** enable instant data insights.
+
+Modern data pipelines often **combine multiple tools**, leveraging **batch and streaming** technologies to build efficient and scalable architectures. Understanding these tools allows data engineers to create **reliable, high-performance data ecosystems**.
+
+## **Apache Airflow Overview**
+
+### **Introduction to Apache Airflow**
+Apache Airflow is an **open-source workflow orchestration tool** designed to programmatically author, schedule, and monitor workflows. It provides a flexible and scalable solution for managing complex data pipelines.
+
+### **Key Characteristics**
+- **Open-source and actively maintained**: Apache Airflow is supported by a strong community, ensuring regular updates and enhancements.
+- **Workflow Management**: Airflow enables users to define, execute, and monitor workflows programmatically.
+- **Task Dependencies**: Workflows are structured as **Directed Acyclic Graphs (DAGs)**, where tasks execute in a specific, non-cyclic order.
+- **Not a Streaming Solution**: While powerful for workflow orchestration, Apache Airflow is **not designed for real-time data streaming**.
+
+### **Apache Airflow Components**
+Apache Airflow consists of multiple components that work together to orchestrate tasks and workflows efficiently.
+
+#### **Scheduler**
+The **Scheduler** is responsible for triggering all scheduled workflows. It ensures that tasks are executed in the correct sequence according to their dependencies.
+
+#### **Executor**
+The **Executor** handles the execution of tasks by assigning them to available **workers**.
+
+#### **Workers**
+Workers are responsible for executing individual tasks. They process the assigned jobs and report back their status.
+
+#### **Web Server (UI)**
+Apache Airflow provides a **graphical user interface (UI)** that allows users to:
+- Monitor workflows
+- Trigger DAGs manually
+- Debug and track task execution statuses
+
+#### **Metadata Database**
+Airflow maintains a **metadata database** that stores:
+- DAG definitions
+- Task execution statuses
+- Workflow schedules
+- Logs and configuration details
+
+#### **DAG Directory**
+The **DAG directory** contains all the Python scripts defining workflows. These scripts are accessed by the scheduler, executor, and workers to determine execution logic.
+
+📌![Airflow Architecture](https://raw.githubusercontent.com/vbs-matheus/coursera/refs/heads/main/imgs/ApacheAirflow-architecture.jpg)
+
+### **Apache Airflow DAG Example**
+A **Directed Acyclic Graph (DAG)** in Airflow consists of **tasks** linked by dependencies. Here’s an example of a basic DAG:
+
+1. **Ingest Data** → 2. **Analyze Data** → 3. **Check Integrity**
+   - If **errors are found** → **Describe Integrity** → **Email Error** → **Report Issue**
+   - If **no errors** → **Save Data** → **Generate Report**
+
+This structure ensures that workflows execute in a **controlled and traceable manner**.
+
+### **Task Lifecycle in Apache Airflow**
+Each task in Airflow goes through a defined set of states:
+
+📌  ![Airflow Task State](https://raw.githubusercontent.com/vbs-matheus/coursera/refs/heads/main/imgs/ApacheAirflow-TaskState.jpg)
+
+1. **No Status** → Task has not yet been queued for execution.
+2. **Scheduled** → The scheduler determines that dependencies are met and schedules the task.
+3. **Removed** → The task is no longer in the DAG.
+4. **Upstream Failed** → A previous dependent task has failed.
+5. **Queued** → The task is waiting for an available worker.
+6. **Running** → A worker is executing the task.
+7. **Success** → Task completed successfully.
+8. **Failed** → Task encountered an error and did not complete.
+9. **Up for Retry** → Task is rescheduled for execution based on retry settings.
+
+Ideally, a task should flow throughout the scheduler from no status, to scheduled, to queued, to running, and finally to success.  
+1. -> 2. -> 5. -> 6. -> 7.
+
+### **Apache Airflow Features**
+Apache Airflow provides several features that make it a powerful workflow management tool.
+
+#### **1. Pure Python**
+- Workflows are written in Python, allowing for **full flexibility** and easy customization.
+
+#### **2. Useful UI**
+- Airflow’s web-based UI enables users to **monitor, schedule, and debug workflows** with full visibility.
+
+#### **3. Integration**
+- Airflow provides **plug-and-play integrations** with various tools, including cloud platforms, databases, and monitoring systems.
+
+#### **4. Ease of Use**
+- Users with **Python experience** can easily create and manage complex workflows.
+- Airflow supports **a wide range of operators** and sensors for different use cases.
+
+#### **5. Open-Source Community**
+- Apache Airflow has an **active developer community**, ensuring continuous improvements and new features.
+
+### **Principles of Apache Airflow**
+Apache Airflow is built on four key principles:
+
+1. **Scalable** → Modular architecture supports distributed execution across multiple workers.
+2. **Dynamic** → Workflows are defined in Python, allowing for flexible DAG creation.
+3. **Extensible** → Users can create custom operators and extend functionality.
+4. **Lean** → Designed with minimal overhead, ensuring efficiency in execution.
+
+### **Apache Airflow Use Cases**
+Many companies leverage Apache Airflow for workflow automation:
+
+- **Adobe** → Custom operators for **workflow automation**.
+- **Adyen** → Extends existing **ETL DAGs** for efficient task management.
+- **Big Fish** → Uses **Python API** for dynamic workflow orchestration.
+- **Walmart** → Automates **data processing and warehouse loading**.
+
+### **Recap**
+- **Apache Airflow** is an **open-source workflow orchestration tool** for scheduling and monitoring workflows.
+- **Key components** include the **Scheduler, Executor, Workers, Web UI, Metadata Database, and DAG Directory**.
+- **Workflows in Airflow** are structured as **Directed Acyclic Graphs (DAGs)**.
+- **Airflow Features** include **Python-based workflows, an intuitive UI, plug-and-play integrations, ease of use, and an active open-source community**.
+- **Common Use Cases** include **ETL workflows, machine learning pipeline dependencies, and workflow automation** in various industries.
+
+---
+---
+
+## **Advantages of Representing Data Pipelines as DAGs in Apache Airflow**
+
+### **Understanding DAGs and Their Role in Apache Airflow**
+A **Directed Acyclic Graph (DAG)** is a fundamental concept in Apache Airflow, representing workflows in a structured manner. At its core, a DAG is a graph where tasks (nodes) are connected by dependencies (edges). Unlike general graphs, a DAG ensures that there are no cycles, meaning no task depends on itself, directly or indirectly. This acyclic property guarantees a clear execution order, making DAGs an ideal way to model data pipelines.
+
+📌  ![DAG](https://raw.githubusercontent.com/vbs-matheus/coursera/refs/heads/main/imgs/DAG.jpg)
+
+The simplest form of a DAG consists of two tasks, where one must complete before the other begins. More complex DAGs may have multiple branches and dependencies, but they all share the same principle: a directional flow of execution that prevents infinite loops.
+
+### **How DAGs Represent Workflows in Airflow**
+In Apache Airflow, DAGs serve as blueprints for data workflows. Each task within a DAG represents a unit of work, such as executing a SQL query, processing a dataset, or triggering an external API call. The relationships between these tasks define the sequence in which they should execute. For example, a DAG may start by extracting data from a database, then transform it into a new format, and finally load it into a destination system. Each of these steps is a task, and Airflow ensures they run in the correct order.
+
+DAGs are not static representations; they are dynamic and coded in Python. This means that instead of configuring workflows manually, engineers define DAGs programmatically, allowing for automation, scalability, and maintainability. Each DAG script includes scheduling details, dependencies, and the specific logic each task needs to execute.
+
+### **Defining Tasks and Operators in Airflow**
+Tasks in a DAG are created using operators, which determine what each task does. Airflow provides several built-in operators tailored for different use cases. For instance, the `PythonOperator` executes Python functions, the `BashOperator` runs shell commands, and the `SQLOperator` executes queries in a database. Additionally, Airflow includes **sensor operators**, which continuously check for conditions to be met before allowing the workflow to proceed. A common example of a sensor is one that waits for a file to be available in a storage system before triggering the next task in the pipeline.
+
+To illustrate this, imagine a DAG that processes daily sales reports. The first task, using a sensor, waits for a CSV file to be uploaded to a storage bucket. Once the file is available, the next task, a Python script, processes the data and extracts relevant insights. Finally, a SQL task loads the cleaned data into a reporting database. This step-by-step execution ensures that no task runs prematurely and that all dependencies are honored.
+
+### **Components of a DAG Definition**
+An Airflow DAG is written as a Python script and consists of several sections.  
+
+1. **Library imports** (e.g., `from airflow import DAG`)
+2. **DAG arguments** (e.g., default execution parameters)
+3. **DAG definition** (e.g., `dag = DAG(...)`)
+4. **Task definitions** (defining tasks using operators)
+5. **Task pipeline** (specifying task dependencies)
+
+The first part of the script typically imports necessary libraries and defines default arguments such as the owner of the DAG, the start date, and the number of retry attempts in case of failure. Following this, the DAG itself is instantiated, specifying the workflow name, execution schedule, and any global settings.
+
+Once the DAG is defined, tasks are created using operators. These tasks form the individual steps of the workflow and can be linked together using dependency operators. For example, in a simple DAG, `task1 >> task2` ensures that `task1` must complete before `task2` starts. This explicit definition of task order is what makes DAGs powerful in orchestrating complex workflows.
+
+Below is an example of a basic DAG that consists of two tasks:
+
+```python
+# 1. Library imports
+from airflow import DAG
+from airflow.operators.bash_operator import BashOperator
+import datetime as dt
+
+# 2. DAG arguments
+default_args = {
+    'owner': 'me',
+    'start_date': dt.datetime(2021, 7, 28),
+    'retries': 1,
+    'retry_delay': dt.timedelta(minutes=5),
+}
+
+# 3. DAG definitions
+dag = DAG('simple_example',
+          description='A simple example DAG',
+          default_args=default_args,
+          schedule_interval=dt.timedelta(seconds=5)
+)
+
+# 4. Task definitions
+task1 = BashOperator(
+    task_id='print_hello',
+    bash_command='echo "Hello, Airflow!"',
+    dag=dag,
+)
+
+task2 = BashOperator(
+    task_id='print_date',
+    bash_command='date',
+    dag=dag,
+)
+
+# 5. Task pipeline
+task1 >> task2
+```
+In this example, `task1` prints message, while `task2` prints the current date and time. 
+
+The `task1 >> task2` notation states the tasks dependencies and ensures `task1` finishes before `task2` begins.
+
+### **Apache Airflow Scheduler**
+
+The scheduler is responsible for monitoring and triggering DAG runs based on the defined schedule. When a DAG is first loaded into Airflow, it remains inactive until the scheduler detects its start date and triggers its execution.
+
+The scheduler deploys tasks to worker nodes that execute them independently. This distributed nature allows Airflow to handle large-scale workflows efficiently. For instance, if a DAG processes multiple datasets, different tasks can be executed in parallel across multiple workers, optimizing processing time.
+
+### **Advantages of Workflows as Code**
+
+Defining workflows as code in Apache Airflow offers several benefits:
+
+- Maintainability: Code is structured and explicit. Engineers can easily review, modify, and debug workflows by inspecting the DAG code.
+- Version Control: Changes can be tracked in Git or other VCS. Any changes to a DAG can be tracked over time, allowing teams to revert to previous versions if needed.
+- Collaboration: Teams can work on DAGs together.
+- Testability: Code can be validated and unit-tested before deployment.
+
+### **Recap**
+
+DAGs in Apache Airflow provide a structured way to define and manage workflows. By representing workflows as directed acyclic graphs, Airflow avoids loops and unnecessary complexity. Tasks within a DAG are implemented using operators, each defining specific actions to be performed. The Airflow Scheduler is responsible for executing these tasks, distributing them across worker nodes and handling failures as needed.
+
+The ability to define DAGs as Python scripts brings multiple advantages. Workflows become more **maintainable**, **version-controlled**, and **testable**, allowing data teams to collaborate efficiently. With this flexibility and robustness, Airflow has become a standard tool for orchestrating data pipelines in modern data engineering.
