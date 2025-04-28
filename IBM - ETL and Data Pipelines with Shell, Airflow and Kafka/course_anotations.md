@@ -635,7 +635,7 @@ Organizations select tools based on their **data volume, real-time processing ne
 
 ### **Open-Source Data Pipeline Tools**
 
-#### **Pandas: A Versatile Data Manipulation Library**
+#### > ***Pandas*: A Versatile Data Manipulation Library**
 **Pandas** is widely used for **lightweight ETL pipelines** and **data analysis**. It provides a **data frame-based structure**, making it easy to manipulate structured data from formats such as **CSV, Excel, JSON, and SQL**.
 
 - **Strengths**:
@@ -649,7 +649,7 @@ Organizations select tools based on their **data volume, real-time processing ne
 
 Alternatives like **Dask, Vaex, and Apache Spark** extend Pandas functionality for large-scale distributed data processing.
 
-#### **Apache Airflow: Orchestrating Complex Data Workflows**
+#### > ***Apache Airflow*: Orchestrating Complex Data Workflows**
 **Apache Airflow**, developed by Airbnb, is a powerful workflow automation framework. It allows users to **define, schedule, and monitor data pipeline execution** programmatically.
 
 - **Key Features**:
@@ -659,7 +659,7 @@ Alternatives like **Dask, Vaex, and Apache Spark** extend Pandas functionality f
 
 Airflow is excellent for managing **scheduled ETL jobs**, though it is not designed for real-time event processing.
 
-#### **Talend Open Studio: A No-Code ETL Solution**
+#### > ***Talend Open Studio*: A No-Code ETL Solution**
 **Talend Open Studio** provides a **visual ETL development** environment, making it easy for users to design **data pipelines with a drag-and-drop interface**.
 
 - **Advantages**:
@@ -671,7 +671,7 @@ Talend is ideal for organizations that require **fast ETL deployment** without d
 
 ### **Enterprise-Grade Data Pipeline Tools**
 
-#### **AWS Glue: A Managed ETL Service**
+#### > ***AWS Glue*: A Managed ETL Service**
 **AWS Glue** is an enterprise-level **serverless ETL solution** that automates data extraction, transformation, and loading.
 
 - **Key Benefits**:
@@ -681,7 +681,7 @@ Talend is ideal for organizations that require **fast ETL deployment** without d
 
 AWS Glue is best suited for **cloud-native organizations** looking for **a fully managed data processing environment**.
 
-#### **IBM InfoSphere DataStage: High-Performance ETL**
+#### > ***IBM InfoSphere DataStage*: High-Performance ETL**
 **IBM InfoSphere DataStage** is a **scalable data integration** platform optimized for large enterprises.
 
 - **Key Features**:
@@ -693,7 +693,7 @@ IBM DataStage is ideal for **complex enterprise-wide ETL and ELT operations**.
 
 ### **Streaming Data Pipeline Tools**
 
-#### **IBM Streams: Real-Time Data Processing**
+#### > ***IBM Streams*: Real-Time Data Processing**
 **IBM Streams** is designed for **low-latency, real-time analytics**, enabling businesses to **process data streams continuously**.
 
 - **Capabilities**:
@@ -703,7 +703,7 @@ IBM DataStage is ideal for **complex enterprise-wide ETL and ELT operations**.
 
 IBM Streams is particularly valuable for industries such as **finance, IoT, and cybersecurity**, where real-time insights are critical.
 
-#### **Apache Kafka: Distributed Event Streaming**
+#### > ***Apache Kafka*: Distributed Event Streaming**
 **Apache Kafka** is a leading **event-driven streaming platform**, enabling real-time data ingestion and message brokering.
 
 - **Key Strengths**:
@@ -716,12 +716,12 @@ Kafka is widely used in **log monitoring, fraud detection, and recommendation en
 ### **Key Takeaways**
 
 #### **Choosing the Right Data Pipeline Tool**
-The choice of a **data pipeline tool** depends on the **organization’s needs, data volume, and processing latency requirements**:
-- **For small-scale ETL & prototyping**: **Pandas** provides a flexible and intuitive environment.
-- **For large-scale workflow automation**: **Apache Airflow** ensures reliable orchestration.
-- **For no-code ETL**: **Talend Open Studio** simplifies development for non-technical users.
-- **For managed cloud-native ETL**: **AWS Glue** provides a fully automated pipeline experience.
-- **For real-time processing**: **IBM Streams and Apache Kafka** enable instant data insights.
+The choice of a data pipeline tool depends on the organization’s *needs*, *data volume*, and *processing latency* requirements:
+- <u>For small-scale ETL & prototyping</u>: **Pandas** provides a flexible and intuitive environment.
+- <u>For large-scale workflow automation</u>: **Apache Airflow** ensures reliable orchestration.
+- <u>For no-code ETL</u>: **Talend Open Studio** simplifies development for non-technical users.
+- <u>For managed cloud-native ETL</u>: **AWS Glue** provides a fully automated pipeline experience.
+- <u>For real-time processing</u>: **IBM Streams and Apache Kafka** enable instant data insights.
 
 Modern data pipelines often **combine multiple tools**, leveraging **batch and streaming** technologies to build efficient and scalable architectures. Understanding these tools allows data engineers to create **reliable, high-performance data ecosystems**.
 
@@ -730,7 +730,7 @@ Modern data pipelines often **combine multiple tools**, leveraging **batch and s
 ## **Apache Airflow Overview**
 
 ### **Introduction to Apache Airflow**
-Apache Airflow is an **open-source workflow orchestration tool** designed to programmatically author, schedule, and monitor workflows. It provides a flexible and scalable solution for managing complex data pipelines.
+Apache Airflow is an *open-source workflow orchestration tool* designed to programmatically author, schedule, and monitor workflows. It provides a flexible and scalable solution for managing complex data pipelines.
 
 ### **Key Characteristics**
 - **Open-source and actively maintained**: Apache Airflow is supported by a strong community, ensuring regular updates and enhancements.
@@ -741,29 +741,29 @@ Apache Airflow is an **open-source workflow orchestration tool** designed to pro
 ### **Apache Airflow Components**
 Apache Airflow consists of multiple components that work together to orchestrate tasks and workflows efficiently.
 
-#### **Scheduler**
-The **Scheduler** is responsible for triggering all scheduled workflows. It ensures that tasks are executed in the correct sequence according to their dependencies.
+#### • **Scheduler**:
+The *Scheduler* is responsible for triggering all scheduled workflows. It ensures that tasks are executed in the correct sequence according to their dependencies.
 
-#### **Executor**
-The **Executor** handles the execution of tasks by assigning them to available **workers**.
+#### • **Executor**:
+The *Executor* handles the execution of tasks by assigning them to available **workers**.
 
-#### **Workers**
-Workers are responsible for executing individual tasks. They process the assigned jobs and report back their status.
+#### • **Workers**:
+*Workers* are responsible for executing individual tasks. They process the assigned jobs and report back their status.
 
-#### **Web Server (UI)**
+#### • **Web Server (UI)**:
 Apache Airflow provides a **graphical user interface (UI)** that allows users to:
 - Monitor workflows
 - Trigger DAGs manually
 - Debug and track task execution statuses
 
-#### **Metadata Database**
+####  • **Metadata Database**
 Airflow maintains a **metadata database** that stores:
 - DAG definitions
 - Task execution statuses
 - Workflow schedules
 - Logs and configuration details
 
-#### **DAG Directory**
+#### • **DAG Directory**
 The **DAG directory** contains all the Python scripts defining workflows. These scripts are accessed by the scheduler, executor, and workers to determine execution logic.
 
 📌![Airflow Architecture](https://raw.githubusercontent.com/vbs-matheus/coursera/refs/heads/main/imgs/ApacheAirflow-architecture.jpg)
@@ -938,3 +938,47 @@ The ability to define DAGs as Python scripts brings multiple advantages. Workflo
 
 ---
 ---
+
+## **Airflow Logging and Monitoring**
+
+### **Understanding Logging and Monitoring in Airflow**
+
+Monitoring data pipelines is crucial to ensure that tasks are executed properly and to diagnose any potential issues along the way.  
+In Apache Airflow, this is achieved through a combination of logging and metrics monitoring. Each task execution generates logs, making it easier to review what happened during a DAG run.  
+
+- **Development environment**: The log files are saved locally. 
+- **Production environment**: it is common practice to move beyond local storage. Airflow recommends sending logs to cloud platforms like *IBM Cloud*, *AWS*, or *Azure*, and also to integrate them with tools such as *Elasticsearch* or *Splunk*. These platforms not only store the logs but allow quick searches and deeper analysis, essential when handling a large volume of task executions.
+
+The way Airflow organizes these logs follows a logical path based on the *DAG ID*, *run ID*, *task ID*, and the *attempt number*.  
+For example, if you want to locate the log of a task called `task1` from the DAG `dummy_dag`, you would navigate to a path like: `logs/dag_id=dummy_dag/run_id=scheduled_<timestamp>/task_id=task1/attempt=1.log`.  
+
+Inside these logs, you find information such as which command was executed, the output of the execution, and whether the task succeeded or failed.
+
+Beyond accessing logs through the file system, Airflow's Web UI offers a more intuitive way to review task events through search filters like *DAG ID*, *Task ID*, and *Logical Date* to quickly retrieve specific task runs. The interface shows statuses such as "success," "failed," or "running," and provides direct access to the related logs without the need to browse folders manually.
+
+📌  ![DAG](https://raw.githubusercontent.com/vbs-matheus/coursera/refs/heads/main/imgs/Airflow-TaskLogUI.jpg)
+
+### **The Role of Metrics in Airflow Monitoring**
+
+Besides logging, Airflow also produces operational metrics that help you keep track of your workflows efficiency. These metrics are divided into three main categories. 
+
+- **Counters**: represent values that are always increasing, such as the total number of successful or failed tasks.  
+- **Gauges**: Values that can fluctuate — they indicate things like the current number of running tasks or the size of the DAG bag at any moment. 
+- **Timers**: Associated with time-based measurements, capturing how long tasks take to complete or how quickly they reach a *success* or *failure* state.
+
+Monitoring these metrics gives you a deeper sense of your system’s behavior. If, for instance, you notice an unusual increase in task failures (a **counter** metric) or a sudden spike in task execution time (a **timer** metric), you can investigate the root cause before it impacts downstream processes.
+
+### **Storing and Visualizing Metrics for Production**
+
+While it’s possible to monitor metrics locally during development, production environments demand a more scalable approach. Airflow recommends sending metrics using *StatsD*, a network daemon capable of receiving and forwarding metrics efficiently.  
+From there, *Prometheus* takes over the role of storing, analyzing, and making sense of the data. It can also visualize these metrics through customizable dashboards, providing teams with real-time insights into their deployments.
+
+Having such a setup means you’re not just collecting data — you're empowering yourself to anticipate problems, optimize workflows, and ensure that service levels are consistently met.
+
+### **Recap**
+
+In this lesson, we explored how Apache Airflow provides powerful tools to monitor and maintain data pipelines. Logs are generated for each task run and can either be stored locally or sent to cloud storage and log analysis systems like *Elasticsearch* and *Splunk*. Airflow’s Web UI simplifies event searching and log access, making the monitoring process more efficient.
+
+We also learned that Airflow emits metrics in the form of *counters*, *gauges*, and *timers*, offering different dimensions for monitoring the health of workflows.
+
+With these capabilities, Airflow ensures that teams can keep their pipelines reliable, performant, and easy to debug, even as systems grow in complexity.
