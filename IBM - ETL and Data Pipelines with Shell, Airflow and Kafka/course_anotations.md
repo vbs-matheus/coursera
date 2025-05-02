@@ -956,7 +956,7 @@ Inside these logs, you find information such as which command was executed, the 
 
 Beyond accessing logs through the file system, Airflow's Web UI offers a more intuitive way to review task events through search filters like *DAG ID*, *Task ID*, and *Logical Date* to quickly retrieve specific task runs. The interface shows statuses such as "success," "failed," or "running," and provides direct access to the related logs without the need to browse folders manually.
 
-📌  ![DAG](https://raw.githubusercontent.com/vbs-matheus/coursera/refs/heads/main/imgs/Airflow-TaskLogUI.jpg)
+📌  ![AirflowUI](https://raw.githubusercontent.com/vbs-matheus/coursera/refs/heads/main/imgs/Airflow-TaskLogUI.jpg)
 
 ### **The Role of Metrics in Airflow Monitoring**
 
@@ -977,8 +977,151 @@ Having such a setup means you’re not just collecting data — you're empowerin
 
 ### **Recap**
 
-In this lesson, we explored how Apache Airflow provides powerful tools to monitor and maintain data pipelines. Logs are generated for each task run and can either be stored locally or sent to cloud storage and log analysis systems like *Elasticsearch* and *Splunk*. Airflow’s Web UI simplifies event searching and log access, making the monitoring process more efficient.
+In this lesson, we explored how Apache Airflow provides powerful tools to monitor and maintain data pipelines. Logs are generated for each task run and can either be stored locally or sent to cloud storage and log analysis systems like *Elasticsearch* and *Splunk*. Airflow’s Web server serves as an interactive UI that simplifies event searching and log access, making the monitoring process more efficient.
 
 We also learned that Airflow emits metrics in the form of *counters*, *gauges*, and *timers*, offering different dimensions for monitoring the health of workflows.
 
 With these capabilities, Airflow ensures that teams can keep their pipelines reliable, performant, and easy to debug, even as systems grow in complexity.
+
+___
+___
+
+# Module 4 - Building Streaming Pipelines using Kafka
+
+## **Distributed Event Streaming Platform Components**
+
+### **Understanding Events in the Context of Streaming**
+
+An *event* represents a change in the observable state of an entity over time. It's the core building block in event-driven systems: *A moving vehicle*, constantly updating its GPS location; *a room thermometer*, reporting temperature changes; *a health monitor* capturing a patient’s blood pressure — **each of these updates is an event**.
+
+Events come in different formats depending on the context. They can be: 
+- **Primitive Values** like plain text or numbers. 
+- **Key-value pairs** like an ID mapped to a GPS coordinate.
+- **Key-value pairs with timestamps** giving the event a specific moment in time. The format chosen depends on how much context and traceability the system requires.
+
+
+### **From Simple to Complex Streaming Scenarios**
+
+In a basic event pipeline, data flows from a single *event source* (a sensor, database, or application) to a single *event destination*. This one-to-one streaming works fine in isolated systems.
+
+Real-world systems are rarely this simple. Enterprises often deal with numerous sources and destinations, and each connection may rely on different communication protocols like *FTP*, *HTTP*, *JDBC*, or *SCP*.  
+Managing these interactions manually becomes unfeasible. That’s why we introduce a more structured intermediary: the **Event Streaming Platform (*ESP*)**.
+
+### **What Is an Event Streaming Platform (ESP)?**
+
+An ESP functions as a centralizer for handling events. Instead of connecting every source to every destination individually, sources *send events* to the ESP, and destinations simply *subscribe* to what they need.  This architecture decouples producers from consumers and creates a more maintainable and scalable system.
+
+The ESP acts not only as a conduit but also as a layer that can store, analyze, and process data in real time.
+
+### **Core Components of an ESP**
+
+To support this functionality, most ESPs are built with a modular architecture that includes:
+
+- **<u>Event Broker</u>(clustered servers)**: The main component responsible for receiving, processing, and delivering events. It has three parts:
+  - The **Ingester**, which collects data from various sources.
+  - The **Processor**, which transforms, encrypts, compresses, or formats the data.
+  - The **Consumption Layer**, which manages the delivery of data to subscribers.
+
+📌  ![ESP Event Broker](https://raw.githubusercontent.com/vbs-matheus/coursera/refs/heads/main/imgs/ESP-EventBroker.png)
+
+
+- **<u>Event Storage</u>**: Temporarily or permanently stores events so they can be retrieved later by consumers. This ensures durability and allows asynchronous processing.
+
+- **<u>Analytic and Query Engine</u>**: Provides interfaces for querying historical data or analyzing trends, often using SQL-like syntax or integrated dashboards.
+
+Together, these components create a robust ecosystem where events can flow continuously and be consumed at the pace and scale each destination requires.
+
+
+### **Popular ESP Technologies**
+
+Several platforms have become popular in this domain due to their scalability and rich ecosystems:
+
+- **Apache Kafka**: The most recognized open-source ESP, widely used across industries.
+- **Amazon Kinesis** & **Azure Event Hub**: Cloud-native solutions with seamless integration into their respective ecosystems.
+- **Apache Flink**: Particularly strong in stream processing and real-time analytics.
+- **IBM Event Stream**: Tailored for enterprises seeking secure and scalable deployments, especially in regulated industries.
+
+Each tool brings unique strengths and trade-offs, and the right choice depends on the organization’s architecture and goals.
+
+### **Recap**
+
+Throughout this lesson, we learned that:
+
+- Events describe observable state changes and are central to streaming architectures.
+- Events may be primitive, structured as key-value pairs, or include timestamps.
+- Simple pipelines can be extended into complex networks of sources and destinations.
+- ESPs provide a unified solution to manage this complexity by acting as centralized intermediaries.
+- Core components of an ESP include the **event broker**, **event storage**, and **query/analytic engine**.
+- Tools like **Apache Kafka**, **Amazon Kinesis**, and **Apache Flink** are among the leading technologies powering modern event-driven systems.
+
+These platforms are fundamental to enabling responsive, scalable, and real-time data architectures in today’s distributed digital ecosystems.
+
+---
+---
+
+## **Apache Kafka Overview**
+
+### **Understanding Apache Kafka as an Event Streaming Platform**
+
+**Apache Kafka** is an open-source event streaming platform designed to handle real-time data flows at massive scale. It serves as a central hub where event *producers* send data that can then be consumed by multiple applications. Originally created to track user activities - keystrokes, page views, or mouse clicks, it has since evolved into a general-purpose system capable of handling a broad range of use cases, from sensor data and application logs to financial transactions and analytics pipelines.
+
+Kafka simplifies the complexity of modern data architectures by decoupling data sources from destinations. *Producers* push event records into Kafka, which then stores them durably and makes them available to *consumers* via a *subscription* model. These *consumers* can store the data, process it in real time, trigger alerts, or feed dashboards and AI models. This architecture enables asynchronous and scalable communication between distributed systems.
+
+### **Kafka Architecture**
+
+Kafka follows a **client-server architecture** based on TCP protocol. Its architecture comprises three primary layers:
+
+- **Producers**: Applications written in Java, Python, Go, or REST clients, publish events to Kafka topics.
+- **Clustered servers** (**brokers**): receive the events and store them across partitions with configurable replication for fault tolerance.
+- **Consumers**: Subscribe to topics and read the events at their own pace, independently of producers.
+
+*Kafka Connect* is used to integrate with external data sources or sinks (e.g., databases, file systems), and *Kafka Controller* manages metadata and broker coordination.  
+Older versions relied on **Zookeeper**, but Kafka now supports **KRaft**, a native consensus mechanism that eliminates this dependency, simplifying deployment and management.
+
+📌  ![Kafka Architecture](https://raw.githubusercontent.com/vbs-matheus/coursera/refs/heads/main/imgs/Kafka-Architecture.jpg)
+
+### **Common Use Cases**
+
+Kafka is widely used across industries because of its reliability and performance:
+
+- Capturing user activity for behavioral analytics.
+- Streaming metrics from infrastructure or applications.
+- Centralizing log aggregation across distributed services.
+- Processing financial transactions in real time with guaranteed durability.
+- Enabling real-time analytics, including dashboards and machine learning pipelines.
+- Supporting governance and audit trails, especially in regulated sectors like banking.
+
+Its flexible and decoupled design makes it ideal for hybrid and multi-cloud data architectures.
+
+### **Main Features of Apache Kafka**
+
+Kafka is designed to support high-throughput, low-latency workloads. Its key features include:
+
+- **Distributed system** that supports parallel processing.
+- **High scalability** through horizontal clustering of brokers.
+- **Reliability** via partitioning and replication.
+- **Permanent event storage**, allowing late consumers to catch up without data loss.
+- **Open source and extensible**, with active community support and robust documentation.
+
+Kafka's persistent storage means consumers can read data at any point in time — a significant advantage over traditional messaging systems where data is transient.
+
+### **Kafka as a Service**
+
+Running Kafka in production requires careful tuning and monitoring. To simplify this, several managed service providers offer Kafka-based streaming platforms:
+
+- **Confluent Cloud** provides a fully managed Kafka deployment with additional tools for stream processing and data governance.
+- **IBM Event Streams** enhances Kafka with enterprise-grade features like disaster recovery and security compliance.
+- **Amazon MSK (Managed Streaming for Kafka)** offers Kafka as a native AWS service, simplifying deployment and integration with the AWS ecosystem.
+
+These services allow teams to focus on building data pipelines rather than managing infrastructure.
+
+### **Recap**
+
+In this lesson, you learned that **Apache Kafka** is a leading open-source **event streaming platform** (**ESP**) that enables high-throughput, fault-tolerant data pipelines.  Kafka decouples event producers and consumers, providing a scalable architecture for real-time analytics, log collection, metric tracking, and financial transaction processing.
+
+You also explored Kafka’s architecture, including its *brokers*, *topics*, *partitions*, and *replication model*, and saw how **Kafka Connect** and **Kafka Controller** support integration and coordination. With the move from Zookeeper to **KRaft**, Kafka has streamlined its internal management.
+
+Finally, you discovered that although Kafka is powerful, it can be complex to manage at scale. Providers like **Confluent Cloud**, **IBM Event Streams**, and **Amazon MSK** offer managed Kafka services to help organizations deploy and operate Kafka more easily, while still leveraging all of its core capabilities.
+
+---
+---
