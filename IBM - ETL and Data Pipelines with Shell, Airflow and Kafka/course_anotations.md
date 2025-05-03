@@ -1125,3 +1125,158 @@ Finally, you discovered that although Kafka is powerful, it can be complex to ma
 
 ---
 ---
+
+## **Building Event Streaming Pipelines Using Kafka**
+
+### **Core Kafka Components and Structure**
+
+Kafka operates as a cluster of **brokers**, each of which acts as a dedicated server responsible for storing, processing, and distributing data.
+
+Each broker maintains one or more **topics**, which serve as logical containers for event data. These topics are used to classify streams of information, such as *log_topic*, *payment_topic*, or *user_click_topic*, depending on the use case.
+
+To ensure scalability and fault tolerance, Kafka topics are divided into **partitions**, which can be **replicated** across multiple brokers. This allows multiple consumers to read in parallel while protecting the system against broker failures. For instance, *log_topic* can be split into partitions 0 and 1, with each partition replicated at least once to ensure availability.
+
+### **Managing Topics with Kafka CLI**
+
+Kafka offers a command-line interface (**CLI**) to manage topics:
+
+```Bash
+# Creating a topic involves specifying the number of partitions and replication factor:   
+  kafka-topics --bootstrap-server localhost:9092 --topic log_topic --create --partitions 2 --replication-factor 2
+
+# Describing topic details:  
+  kafka-topics --bootstrap-server localhost:9092 --describe log_topic
+
+# Deleting a topic:  
+  kafka-topics --bootstrap-server localhost:9092 --topic log_topic --delete
+```
+
+
+### **Kafka Producers and Publishing Logic**
+
+**Kafka producers** are client applications that publish events to specific topic partitions. Events can optionally include a *key*. If a key is provided, Kafka ensures that all events with the same key go to the same partition — preserving order. Without a key, events are distributed across partitions in a round-robin manner.
+
+For example, a *log_producer* may publish system logs, while a *user_producer* might emit user activity data. Events associated with a user ID (key) are directed to the same partition, enabling efficient replay and consistency.
+
+#### **Kafka Producer in Action**
+
+In practice, you might have one event source generating logs and another generating user activity events. These sources are connected to Kafka via producers. Events are serialized and stored in their corresponding topic partitions (*log_topic*, *user_topic*, etc.).
+
+To publish via CLI:
+
+```python
+# Without Keys
+  kafka-console-producer --broker-list localhost:9092 --topic log_topic
+```
+-log1  
+-log2
+
+```python
+# With Keys
+  kafka-console-producer --broker-list localhost:9092 --topic user_topic --property parse.key=true --property key.separator=,
+```
+ -user1,login website  
+  -user1,click item 
+
+### **Kafka Consumers and Event Replay**
+
+**Kafka consumers** subscribe to topics and read data in the same order it was written. Each consumer tracks its *offset*, indicating where it last left off. This offset is critical for ensuring data consistency and enabling replay.
+
+Kafka supports two consumption modes:
+
+```python
+# Consume from last offset (default behavior)
+kafka-console-consumer --bootstrap-server localhost:9092 --topic log_topic
+# Consume from beginning to replay all historical events:
+kafka-console-consumer --bootstrap-server localhost:9092 --topic log_topic --from-beginning
+```
+
+This flexibility makes Kafka suitable for both real-time and retrospective analytics.
+
+### **Example: Weather and Twitter Pipeline**
+
+Imagine integrating weather data with social sentiment analysis:
+
+📌  ![Weather Pipeline Example](https://raw.githubusercontent.com/vbs-matheus/coursera/refs/heads/main/imgs/WeatherPipeline-example.jpg)
+
+1. **Producers** pull JSON data from the *IBM Weather API* and *Twitter API*.
+2. Data is published to two topics: *weather_topic* and *twitter_topic*.
+3. **Consumers** deserialize the data and pass it to a *DB Writer*.
+4. The writer stores records in a *relational database* (*RDBMS*).
+5. A **dashboard** queries and visualizes the data for pattern analysis — for example, showing how users react online to extreme weather events.
+
+### **Recap**
+
+In this lesson, you learned: 
+- How to construct streaming pipelines using **Apache Kafka**. Core components include *brokers*, *topics*, *partitions*, *replications*, *producers*, and *consumers*. 
+- How to interact with Kafka using CLI tools like `kafka-topics`, `kafka-console-producer`, and `kafka-console-consumer`.
+
+Kafka’s architecture allows for both *real-time streaming* and *retrospective analysis*, with powerful features like *offset management*, *replication*, and *key-based partitioning*.
+
+---
+---
+
+## **Kafka Streaming Process**
+
+### **Ad Hoc Stream Processing in Kafka**
+
+Kafka stream processing involves transforming raw events into refined insights — often in real time. An initial, direct way to do this is by setting up an [*ad hoc*](https://dictionary.cambridge.org/dictionary/english/ad-hoc) pipeline where a consumer reads from a topic, applies logic (like filtering or transformation), and writes to a new topic through a producer.
+
+Take the example of processing weather data: raw JSON events are published to the `raw_weather_topic`. A **consumer** then reads this stream and passes it to a *weather data **processor***, which might filter out only extreme conditions. The transformed events are then re-published to a `processed_weather_topic`, from which a new consumer can read and push data to a weather dashboard.
+
+📌  ![Ad hoc Stream Processing Example](https://raw.githubusercontent.com/vbs-matheus/coursera/refs/heads/main/imgs/adhoc-streamprocessing.jpg)
+
+While this model works, it quickly becomes unmanageable at scale. Each new processing logic requires manually orchestrating consumers and producers.
+
+
+### **Kafka Streams API: Declarative Stream Processing**
+
+Kafka addresses this complexity through the **Kafka Streams API** — a lightweight Java client library tailored for processing data stored in Kafka topics. The API handles stream ingestion, transformation, and re-publication within a single application, simplifying development and improving maintainability.
+
+It enforces *exactly-once processing* semantics by ensuring each record is processed a single time. More importantly, it processes events *record by record*, which keeps latency low.
+
+📌 ![Kafka Stream API](https://raw.githubusercontent.com/vbs-matheus/coursera/refs/heads/main/imgs/KafkaStreamsAPI.jpg)
+
+The Streams API is built around a **computational graph**, called a *stream processing topology*, where:
+- **Nodes** are stream processors (each performs a transformation like filtering or aggregating).
+- **Edges** are streams of events flowing between processors.
+- The **source processor** reads from Kafka topics and begins the flow.
+- The **sink processor** publishes the final result to a Kafka topic.
+
+
+### **Stream Topology in Action**
+
+The stream processing topology formalizes the flow of data through a series of processors.
+
+📌 ![Stream Topology](https://raw.githubusercontent.com/vbs-matheus/coursera/refs/heads/main/imgs/StreamTopology.jpg)
+
+A possible flow might look like this:
+1. A **source processor** consumes from the `topic`.
+2. A downstream **stream processor** filters for extreme events.
+3. The final **sink processor** writes to the `processed_weather_topic`.
+
+This topology approach eliminates the need to manage separate consumer/producer logic manually and scales much more gracefully in complex scenarios.
+
+### **Kafka Weather Processing with Streams API**
+
+Let’s revisit the weather processing pipeline — this time using the **Kafka Streams API**:
+
+📌 ![Kafka Weather Stream](https://raw.githubusercontent.com/vbs-matheus/coursera/refs/heads/main/imgs/KafkaWeatherStreamsAPI.jpg)
+
+1. A *weather producer* publishes raw weather data to `raw_weather_topic`.
+2. The Streams API consumes from this topic using a **source processor**.
+3. A **stream processor** filters for high-temperature records.
+4. A **sink processor** publishes the result to `processed_weather_topic`.
+5. Finally, a consumer reads the processed stream for dashboard visualization.
+
+This design dramatically simplifies logic and promotes reuse and scalability.
+
+### **Recap**
+
+- The **Kafka Streams API** is a lightweight client library for stream processing within Kafka pipelines.
+- It replaces manual consumer-producer setups with **stream topologies**, where processors handle transformations.
+- A **source processor** ingests data from Kafka topics, and a **sink processor** publishes it back.
+- Stream processing becomes more manageable, composable, and resilient using this model — especially when scaling across many topics or complex workflows.
+
+Kafka Streams empowers developers to create real-time, declarative, and fault-tolerant data applications directly within the Kafka ecosystem.
+
