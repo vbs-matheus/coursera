@@ -1289,5 +1289,5 @@ The tasks for this final module will be:
 
 
 ### Task Resolutions
-- The hands-on lab tasks resolution are on the [ETL_tool_data.py](https://raw.githubusercontent.com/vbs-matheus/coursera/main/ETL_tool_data.py) file.  
+- The hands-on lab tasks resolution are on the [ETL_tool_data.py](https://github.com/vbs-matheus/coursera/blob/09fc178a7bee9cbda71b9ed418f6f7bfa9affefe/IBM%20-%20ETL%20and%20Data%20Pipelines%20with%20Shell%2C%20Airflow%20and%20Kafka/ETL_tool_data.py) file.  
    The data set used for the the task can be downloaded on this [link](https://cf-courses-data.s3.us.cloud-object-storage.appdomain.cloud/IBM-DB0250EN-SkillsNetwork/labs/Final%20Assignment/tolldata.tgz)
