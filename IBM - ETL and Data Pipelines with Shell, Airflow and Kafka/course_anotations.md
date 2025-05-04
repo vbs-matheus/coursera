@@ -1280,3 +1280,14 @@ This design dramatically simplifies logic and promotes reuse and scalability.
 
 Kafka Streams empowers developers to create real-time, declarative, and fault-tolerant data applications directly within the Kafka ecosystem.
 
+## Final Assignment
+
+The final assignment is the final module, where we apply our knowledge to explore two hands-on labs. “Creating ETL Data Pipelines using Apache Airflow”.
+
+The tasks for this final module will be:
+- To build ETL pipelines using real-world scenarios - **extract**, **transform**, and **load** data into a *CSV file*. 
+
+
+### Task Resolutions
+- The hands-on lab tasks resolution are on the [ETL_tool_data.py](https://raw.githubusercontent.com/vbs-matheus/coursera/main/ETL_tool_data.py) file.  
+   The data set used for the the task can be downloaded on this [link](https://cf-courses-data.s3.us.cloud-object-storage.appdomain.cloud/IBM-DB0250EN-SkillsNetwork/labs/Final%20Assignment/tolldata.tgz)
